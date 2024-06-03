@@ -1,11 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-abstract class ILocationService {
-  Future<Position> getCurrentLocation();
-}
-
-class LocationService implements ILocationService {
-  @override
+class LocationService {
   Future<Position> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -19,7 +14,7 @@ class LocationService implements ILocationService {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied.');
+        return Future.error('Location permissions are denied');
       }
     }
 
@@ -28,6 +23,7 @@ class LocationService implements ILocationService {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition();
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 }

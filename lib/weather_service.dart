@@ -1,5 +1,5 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherService {
@@ -7,13 +7,11 @@ class WeatherService {
 
   WeatherService({required this.client});
 
-  Future<Map<String, dynamic>> getWeather(
-      double latitude, double longitude) async {
+  Future<Map<String, dynamic>> getWeather(double lat, double lon) async {
     final apiKey = dotenv.env['WEATHER_API_KEY'];
-    final response = await client.get(
-      Uri.parse(
-          'https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$latitude,$longitude'),
-    );
+    final url =
+        'http://api.weatherapi.com/v1/current.json?key=$apiKey&q=$lat,$lon';
+    final response = await client.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
