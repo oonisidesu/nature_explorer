@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>アプリの利用中に位置情報を使用します。</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>アプリがバックグラウンドで位置情報を使用します。</string>
 </dict>
 </plist>
