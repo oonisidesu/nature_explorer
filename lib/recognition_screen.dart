@@ -5,12 +5,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RecognitionScreen extends StatefulWidget {
-  final String apiKey;
-
-  RecognitionScreen({required this.apiKey});
-
   @override
   _RecognitionScreenState createState() => _RecognitionScreenState();
 }
@@ -40,17 +37,16 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
     }
 
     try {
-      final model = GenerativeModel(
-        model: "gemini-1.5-flash-latest",
-        apiKey: widget.apiKey,
-      );
+      final apiKey = dotenv.env['GEMINI_API_KEY']!;
+      final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
 
       final imageBytes = await _image!.readAsBytes();
+      final content = [
+        Content.text('What is in this photo?'),
+        Content.data('image/png', imageBytes),
+      ];
 
-      final response = await model.generateContent([
-        Content.text("What's in this photo?"),
-        Content.data("image/png", imageBytes),
-      ]);
+      final response = await model.generateContent(content);
 
       setState(() {
         _recognitionResult = response.text ?? 'No recognition result.';

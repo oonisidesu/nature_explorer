@@ -65,9 +65,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => RecognitionScreen(
-                          apiKey: dotenv.env['GEMINI_API_KEY']!)),
+                  MaterialPageRoute(builder: (context) => RecognitionScreen()),
                 );
               },
             ),
