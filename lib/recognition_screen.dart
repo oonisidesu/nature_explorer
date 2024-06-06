@@ -5,9 +5,12 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RecognitionScreen extends StatefulWidget {
+  final String apiKey;
+
+  RecognitionScreen({required this.apiKey});
+
   @override
   _RecognitionScreenState createState() => _RecognitionScreenState();
 }
@@ -37,7 +40,7 @@ class _RecognitionScreenState extends State<RecognitionScreen> {
     }
 
     try {
-      final apiKey = dotenv.env['GEMINI_API_KEY']!;
+      final apiKey = widget.apiKey;
       final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
 
       final imageBytes = await _image!.readAsBytes();

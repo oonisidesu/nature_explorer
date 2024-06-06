@@ -5,6 +5,9 @@ import 'package:path/path.dart' as path;
 import 'package:flutter/services.dart' show rootBundle;
 import 'weather_screen.dart';
 import 'recognition_screen.dart';
+import 'post_screen.dart';
+import 'contest_screen.dart';
+import 'stamp_rally_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +46,19 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
+
+    if (apiKey.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Nature Explorer'),
+        ),
+        body: Center(
+          child: Text('API Key is not set. Please check your .env file.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Nature Explorer'),
@@ -65,7 +81,38 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RecognitionScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => RecognitionScreen(apiKey: apiKey)),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('Post'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PostScreen(apiKey: apiKey)),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('Contest'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContestScreen(apiKey: apiKey)),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text('Stamp Rally'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StampRallyScreen(apiKey: apiKey)),
                 );
               },
             ),
